@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações de IP - CEP </title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: dimgray;
+            margin: 0px;
+        }
+        header {
+            background-color: white;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        main {
+            background-color: white;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        footer {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 1px;
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function CepConsultado(){ 
+        var cep = document.getElementById("cep").value;
+        console.log(cep)
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "https://api.ipify.org/?format=json",
+                success: function(resposta) {
+                    $("#ip").html("<p>IP: " + resposta.ip + "</p>");
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "https://viacep.com.br/ws/"+ cep +"/json/",
+                success: function(resposta) {
+                    $("#cep1").html("<p>CEP: " + resposta.cep + "</p>" +
+                                        "<p>Logradouro: " + resposta.logradouro + "</p>" +
+                                        "<p>Bairro: " + resposta.bairro + "</p>" +
+                                        "<p>Cidade: " + resposta.localidade + "</p>" +
+                                        "<p>Estado: " + resposta.uf + "</p>");
+                }
+            });
+        });
+    }
+    </script>
+    <header>
+        <h1>IP</h1>
+        <div id="ip"></div>
+    </header>
+
+    <main>
+        <h1>Informações do CEP</h1>
+        <div id="cep1">
+        </div>
+        <p>Digite o CEP:</p><input type="text" id="cep"> <button onclick="CepConsultado()">Consultar IP e CEP</button>
+    </main>
+    <footer>
+      Manoel Eduardo de Azevedo Sales
+    </footer>
+</body>
+</html>
